@@ -1,0 +1,58 @@
+name: Build with the NDK
+on:
+  workflow_call:
+    inputs:
+      command:
+        type: string
+        required: true
+      dir:
+        type: string
+        required: false
+        default: .github/build-with-ndk
+      name:
+        type: string
+        required: false
+        default: ${{github.workflow}}
+env:
+  SRC: ${{github.workspace}}
+  DIR: ${{github.workspace}}/${{inputs.dir}}
+  OUT: ${{github.workspace}}/${{inputs.dir}}/out
+  NDK: ${{github.workspace}}/${{inputs.dir}}/ndk
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [aarch64, x86_64, armv7a, i686]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Make directories
+        id: mkdirs
+        working-directory: ${{github.workspace}}
+        run: mkdir -p ${{env.OUT}}
+
+      - name: Cache the downloaded NDK
+        id: cache-ndk
+        uses: actions/cache@v3
+        with:
+          key: ${{runner.os}}-android-ndk
+          path: ${{env.NDK}}
+
+      - name: Download the NDK
+        if: steps.cache-ndk.outputs.cache-hit != 'true'
+        run: |
+          wget -nv https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
+          unzip -d ${{env.NDK}} android-ndk-*-linux.zip
+
+      - name: Build with the NDK
+        id: build
+        run: ${{env.SRC}}/${{inputs.command}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
+
+      - name: Save output
+        if: success() || failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{inputs.name}}-${{matrix.arch}}${{steps.build.conclusion == 'failure' && '-FAILED' || ''}}
+          path: ${{env.OUT}}

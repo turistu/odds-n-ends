@@ -1,0 +1,43 @@
+#! /bin/sh
+api=21
+arch=armv7a
+ndk=${NDK:-/path-to-the/ndk}
+src=${SRC:-$(realpath $(dirname "$0"))}
+out=${OUT:-.}
+
+set -e
+test -e "$src/configure" ||
+	test -r "$src/configure.ac" && autoreconf "$src" || :
+while :; do
+	case $1 in
+	aarch64|armv7a|i686|x86_64) arch=$1;;
+	[1-9][0-9]|[1-9])	api=$1;;
+	*/android-ndk-*)	ndk=$1;;
+	*=*)	eval "$1";;
+	*) break;;
+	esac
+	shift
+done
+case $arch in
+armv7a) eabi=eabi;;
+*) eabi=;;
+esac
+die(){ echo >&2 "$@"; exit 1; }
+test -d "$ndk" || die not a directory: "$ndk"
+tc=$(realpath "$ndk/toolchains/llvm/prebuilt/linux-x86_64")
+cc=$tc/bin/$arch-linux-android$eabi$api-clang
+test -x "$cc" || die not an executable: "$cc"
+strip=$tc/bin/llvm-strip
+test -x "$strip" || die not an executable: "$strip"
+case $1 in
+configure)
+	CC=$cc STRIP=$strip exec "$src/$1" --host="$arch-linux-android$api" ;;
+cc)
+	shift; "$cc" "$@" ;;
+*)
+	exec > "$out/android-$arch-$api-LOG"
+	ls "$tc" "$cc" "$strip"
+	set
+	echo 'int main(){}' | "$cc" -xc - -o "$out/android-$arch-$api"
+	;;
+esac
