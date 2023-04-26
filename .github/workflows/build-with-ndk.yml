@@ -5,14 +5,18 @@ on:
       command:
         type: string
         required: true
+      reconf:
+        type: string
+        required: false
+        default: echo nothing to do
       dir:
         type: string
         required: false
-        default: .github/build-with-ndk
+        default: BUILD
       name:
         type: string
         required: false
-        default: ${{github.workflow}}
+        default: ${{github.event.repository.name}}
 env:
   SRC: ${{github.workspace}}
   DIR: ${{github.workspace}}/${{inputs.dir}}
@@ -28,10 +32,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Make directories
+      - name: Make directories and reconfigure the sources
         id: mkdirs
-        working-directory: ${{github.workspace}}
-        run: mkdir -p ${{env.OUT}}
+        run: |
+          printenv
+          mkdir -p ${{env.OUT}}
+          ${{inputs.reconf}}
 
       - name: Cache the downloaded NDK
         id: cache-ndk
@@ -48,7 +54,7 @@ jobs:
 
       - name: Build with the NDK
         id: build
-        run: ${{env.SRC}}/${{inputs.command}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
+        run: ${{inputs.command}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
 
       - name: Save output
         if: success() || failure()
