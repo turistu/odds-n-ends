@@ -2,7 +2,7 @@ name: Build with the NDK
 on:
   workflow_call:
     inputs:
-      command:
+      build:
         type: string
         required: true
       reconf:
@@ -35,7 +35,6 @@ jobs:
       - name: Make directories and reconfigure the sources
         id: mkdirs
         run: |
-          printenv
           mkdir -p ${{env.OUT}}
           ${{inputs.reconf}}
 
@@ -54,7 +53,7 @@ jobs:
 
       - name: Build with the NDK
         id: build
-        run: ${{inputs.command}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
+        run: ${{inputs.build}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
 
       - name: Save output
         if: success() || failure()
