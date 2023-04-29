@@ -19,9 +19,7 @@ on:
         default: ${{github.event.repository.name}}
 env:
   SRC: ${{github.workspace}}
-  DIR: ${{github.workspace}}/${{inputs.dir}}
   OUT: ${{github.workspace}}/${{inputs.dir}}/out
-  NDK: ${{github.workspace}}/${{inputs.dir}}/ndk
 jobs:
   build:
     strategy:
@@ -38,22 +36,9 @@ jobs:
           mkdir -p ${{env.OUT}}
           ${{inputs.reconf}}
 
-      - name: Cache the downloaded NDK
-        id: cache-ndk
-        uses: actions/cache@v3
-        with:
-          key: ${{runner.os}}-android-ndk
-          path: ${{env.NDK}}
-
-      - name: Download the NDK
-        if: steps.cache-ndk.outputs.cache-hit != 'true'
-        run: |
-          wget -nv https://dl.google.com/android/repository/android-ndk-r25c-linux.zip
-          unzip -d ${{env.NDK}} android-ndk-*-linux.zip
-
       - name: Build with the NDK
         id: build
-        run: ${{inputs.build}} ${{matrix.arch}} ${{env.NDK}}/android-ndk-*
+        run: ${{inputs.build}} ${{matrix.arch}} "$ANDROID_NDK"
 
       - name: Save output
         if: success() || failure()
