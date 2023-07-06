@@ -44,5 +44,5 @@ jobs:
         if: success() || failure()
         uses: actions/upload-artifact@v3
         with:
-          name: ${{inputs.name}}-${{matrix.arch}}${{steps.build.conclusion == 'failure' && '-FAILED' || ''}}
+          name: ${{inputs.name}}-android-${{matrix.arch}}${{steps.build.conclusion == 'failure' && '-FAILED' || ''}}
           path: ${{env.OUT}}
