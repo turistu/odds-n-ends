@@ -27,7 +27,7 @@ jobs:
           git config user.email github-actions@github.com
           git checkout -b ${{inputs.dst}}
           ${{inputs.cmd}}
-          git add .
+          git add -f .
           git diff --cached --quiet ||
             git commit -m "$(git show --quiet --pretty=format:%s) / auto"
           git push -f -u origin HEAD
