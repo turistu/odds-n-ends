@@ -1,0 +1,34 @@
+name: push-html
+description: push html file to USER.github.io
+inputs:
+  src:
+    required: true
+  token:
+    required: true
+  user:
+    default: ${{github.repository_owner}}
+  repo:
+    default: ${{github.repository_owner}}.github.io
+  dst:
+    default: .
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        token: ${{inputs.token}}
+        repository: ${{inputs.user}}/${{inputs.repo}}
+        path: ${{inputs.repo}}
+    - name: copy
+      shell: bash
+      run: |
+        set -xe
+        cp -r ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
+        cd ${{inputs.repo}}
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add ${{inputs.dst}}
+        git diff --cached --quiet ||
+                git commit -m 'updating ${{inputs.src}} -> ${{inputs.dst}}'
+        git push
+
