@@ -1,8 +1,0 @@
-name: Test Reusable Workflow
-on:
-  workflow_dispatch:
-jobs:
-  test:
-    uses: turistu/odds-n-ends/.github/workflows/build-with-ndk.yml@main
-    with:
-      command: build-with-ndk/ndk
