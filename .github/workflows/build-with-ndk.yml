@@ -17,6 +17,9 @@ on:
         type: string
         required: false
         default: ${{github.event.repository.name}}
+      ref:
+        type: string
+        default: ${{github.ref_name}}
 env:
   SRC: ${{github.workspace}}
   OUT: ${{github.workspace}}/${{inputs.dir}}/out
@@ -29,7 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+          with:
+            ref: ${{inputs.ref}}
       - name: Make directories and reconfigure the sources
         id: mkdirs
         run: |
