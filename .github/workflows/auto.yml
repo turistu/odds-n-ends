@@ -23,11 +23,11 @@ jobs:
       - name: auto
         run: |
           set -ex
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "$(git log -n1 --format=format:%an)[auto]"
+          git config user.email "$(git log -n1 --format=format:%ae)"
           git checkout -b ${{inputs.dst}}
           ${{inputs.cmd}}
           git add -f .
           git diff --cached --quiet ||
-            git commit -m "$(git show --quiet --pretty=format:%s) / auto"
+            git commit -m "[auto] $(git show --quiet --pretty=format:%s)"
           git push -f -u origin HEAD
