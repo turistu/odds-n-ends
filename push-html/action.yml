@@ -23,12 +23,13 @@ runs:
       shell: bash
       run: |
         set -xe
+        user=$(git log -n1 --format=format:%an)[auto]
+        email=$(git log -n1 --format=format:%ae)
         cp -r ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
         cd ${{inputs.repo}}
-        git config user.name github-actions
-        git config user.email github-actions@github.com
         git add ${{inputs.dst}}
         git diff --cached --quiet ||
-                git commit -m 'updating ${{inputs.src}} -> ${{inputs.dst}}'
+                git -c user.name="$user" -c user.email="$email" commit \
+                        -m 'updating ${{inputs.src}} -> ${{inputs.dst}}'
         git push
 
