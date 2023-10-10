@@ -4,7 +4,6 @@ on:
     inputs:
       branch:
         type: string
-        default: ${{github.ref_name}}
       upstream:
         type: string
 jobs:
@@ -20,8 +19,10 @@ jobs:
       - name: merge
         run: |
           set -ex
-          git config user.name "$(git log --author=turistu -n1 --format=format:%an)[auto]"
-          git config user.email "$(git log -author=turistu -n1 --format=format:%ae)"
+          user=${{github.repository_owner}}
+          email=$(git log -n1 --author="$user" --format=format:%ae)
+          git config user.name "$user[sync]"
+          git config user.email "${email:-actions@github.com}"
           git remote add upstream ${{inputs.upstream}}
           git fetch upstream
           git merge upstream/master

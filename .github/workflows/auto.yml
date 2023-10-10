@@ -23,8 +23,10 @@ jobs:
       - name: auto
         run: |
           set -ex
-          git config user.name "$(git log -n1 --format=format:%an)[auto]"
-          git config user.email "$(git log -n1 --format=format:%ae)"
+          user=${{github.repository_owner}}
+          email=$(git log -n1 --author="$user" --format=format:%ae)
+          git config user.name "$user[sync]"
+          git config user.email "${email:-actions@github.com}"
           git checkout -b ${{inputs.dst}}
           ${{inputs.cmd}}
           git add -f .
