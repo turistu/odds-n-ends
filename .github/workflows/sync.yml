@@ -1,0 +1,28 @@
+name: Sync with upstream
+on:
+  workflow_call:
+    inputs:
+      branch:
+        type: string
+        default: ${{github.ref_name}}
+      upstream:
+        type: string
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{inputs.branch}}
+          fetch-depth: 0
+      - name: merge
+        run: |
+          set -ex
+          git config user.name "$(git log --author=turistu -n1 --format=format:%an)[auto]"
+          git config user.email "$(git log -author=turistu -n1 --format=format:%ae)"
+          git remote add upstream ${{inputs.upstream}}
+          git fetch upstream
+          git merge upstream/master
+          git push
