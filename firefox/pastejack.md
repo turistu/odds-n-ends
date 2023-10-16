@@ -108,7 +108,7 @@ mode early by inserting a `\e[201~` in the payload.
 
 For bash, you can take advantage of some quirks in the readline library
 to turn off the highlighting and make the payload invisible to the user.
-E.g. ([live example here][bash-pastejack])
+E.g. ([live example here][bash-pastejack]):
 
 	let payload = 'touch ~/LOL-' + Date.now() / 1000;
 	writeXPrimary('\n' + payload + '\n'.repeat(100) + ' '.repeat(30)
