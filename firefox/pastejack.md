@@ -114,7 +114,7 @@ E.g. ([live example here][bash-pastejack])
 	writeXPrimary('\n' + payload + '\n'.repeat(100) + ' '.repeat(30)
 		+ '\n'.repeat(100))
 
-which will confuse the user with a screen like when some background job
+which will confuse the user with the same screen as when some stray background job
 had written something to the terminal:
 
 	user@host:~$ : previous unrelated command
