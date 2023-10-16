@@ -40,18 +40,18 @@ just between your copy and paste.
 
 ### Short technical explanation
 
-Browsers like firefox have the concepts of "trusted context" (e.g. `https://`)
-and "transient user activation"; the javascript from the page gets some
+Browsers like firefox have the concepts of "secure context" (e.g. `https://`)
+and "[transient user activation]"; the javascript from the page gets some
 temporary powers as soon as you have interacted *even so little* with the
-page, like clicked, touched it, etc.
+page, like clicked, touched, etc.
 
 For instance, writing with `Clipboard.writeText()` to the windows-style
 Ctrl-C Ctrl-V *clipboard* selection is only possible from secure contexts
-and while the transient activation is enabled. As this bug demonstrates,
-no such prerequisites are needed for writing to the *primary* selection,
-which on X11 is much more used and much more valuable.
+and only in the short while after the user has clicked a button, etc on the page.
+As this bug demonstrates, those prerequisites are not needed for writing to the
+*primary* selection, which on X11 is much more used and much more valuable.
 
-[user activation]: https://developer.mozilla.org/en-US/docs/Web/Security/User_activation
+[transient user activation]: https://developer.mozilla.org/en-US/docs/Web/Security/User_activation
 
 ### Workaround
 
