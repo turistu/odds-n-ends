@@ -96,7 +96,7 @@ dragging but hasn't released the mouse button yet, that code will be called
 selected by the user. However, I think that this patch is still enough
 to fill the glaring hole opened by `selectAllChildren()`.
 
-### About that example and bracketed-paste
+### About the example and bracketed-paste
 
 The bracketed paste feature of bash/readline and zsh means that you
 cannot just append a CR or LF to the payload and be done, it's the
