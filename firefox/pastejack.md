@@ -63,7 +63,7 @@ like `addRange()`, e.g.:
 	let block = function(){ throw Error('blocked') };
 	exportFunction(block, Selection.prototype, { defineAs: 'selectAllChildren' });
 
-[Complete extension on AMO][amo-xpi]. If you're running firefox-esr, the development
+[Complete extension on addons.mozilla.org][amo-xpi]. If you're running firefox-esr, the developer
 edition or nightly, you can just `set xpinstall.signatures.required` to true in
 `about:config`, get the xpi from [here][xpi] and install it with `firefox no-sel.xpi`.
 
