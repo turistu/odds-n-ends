@@ -104,7 +104,7 @@ user who has to press ENTER for it to run.
 
 However, workarounds exist.  For instance, some terminals like mlterm
 don't filter out the pasted data, and you can terminate the pasting
-mode early by inserting a `\e[201~` in the payload.
+mode early on by inserting a `\e[201~` in the payload.
 
 For bash, you can take advantage of some quirks in the readline library
 to turn off the highlighting and make the payload invisible to the user.
@@ -129,7 +129,7 @@ don't do have that bracketed-paste feature are at fault here in any way
 with my workflow): It's firefox which should get all the blame for letting
 random javascript evade its pretended "sandbox" in this way.
 
-### About wayland
+### About Wayland
 
 For firefox running in Wayland, `writeXPrimary()` will only succeed
 when the firefox window (the main window, not necessarily the tab the code
