@@ -56,8 +56,9 @@ As this bug demonstrates, those prerequisites are not needed for writing to the
 ### Workaround
 
 Without patching firefox, the only workaround I can think about is
-disabling the `Clipboard.selectAllChildren()` function from an addon's
-content script, e.g. like this:
+catching the `Selection.selectAllChildren()` function from an addon's
+content script, and either block it or reimplement it via other function
+like `addRange()`, e.g.:
 
 	let block = function(){ throw Error('blocked') };
 	exportFunction(block, Selection.prototype, { defineAs: 'selectAllChildren' });
