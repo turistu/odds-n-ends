@@ -63,12 +63,12 @@ like `addRange()`, e.g.:
 	let block = function(){ throw Error('blocked') };
 	exportFunction(block, Selection.prototype, { defineAs: 'selectAllChildren' });
 
-[Complete extension here][xpi]. I tried to submit it to addons.mozilla.org
-but they didn't accept it. If you're running firefox-esr, the development
+[Complete extension on AMO][amo-xpi]. If you're running firefox-esr, the development
 edition or nightly, you can just `set xpinstall.signatures.required` to true in
-`about:config` and install it with `firefox no-sel.xpi`.
+`about:config`, get the xpi from [here][xpi] and install it with `firefox no-sel.xpi`.
 
 [xpi]: no-sel.xpi
+[amo-xpi]: https://addons.mozilla.org/en-US/firefox/addon/disable-the-selection-api/
 
 ### Firefox Patch
 ```
