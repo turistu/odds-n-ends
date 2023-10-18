@@ -55,7 +55,7 @@ As this bug demonstrates, those prerequisites are not needed for writing to the
 
 ### Workaround
 
-Without patching firefox, the only workaround I can think about is
+Without patching firefox, the only workaround I can think of is
 catching the `Selection.selectAllChildren()` function from an addon's
 content script, and either block it or reimplement it via other function
 like `addRange()`, e.g.:
@@ -64,7 +64,7 @@ like `addRange()`, e.g.:
 	exportFunction(block, Selection.prototype, { defineAs: 'selectAllChildren' });
 
 [Complete extension on addons.mozilla.org][amo-xpi]. If you're running firefox-esr, the developer
-edition or nightly, you can just `set xpinstall.signatures.required` to true in
+edition or nightly, you can just set `xpinstall.signatures.required` to `true` in
 `about:config`, get the xpi from [here][xpi] and install it with `firefox no-sel.xpi`.
 
 [xpi]: no-sel.xpi
