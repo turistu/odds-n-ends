@@ -89,13 +89,13 @@ diff -r 9b362770f30b layout/generic/nsFrameSelection.cpp
 ```
 
 The idea of this patch was to *always* prevent javascript from indirectly
-messing with the primary selection via the Selection API. However, it turned
-out that the `JS_REASON` flag was not reliable; if javascript calls some
-function like `addRange()` or `selectAllChildren()` while the user has started
-dragging but hasn't released the mouse button yet, that code will be called
-*without* that flag but with the text set by javascript, not the text
-selected by the user. However, I think that this patch is still enough
-to fill the glaring hole opened by `selectAllChildren()`.
+messing with the primary selection via the Selection API. However, this patch
+does not live up to that promise, because `JS_REASON` is not reliable; if
+javascript calls some function like `addRange()` or `selectAllChildren()`
+while the user has started dragging but hasn't released the mouse button yet,
+that code will be called *without* that flag but with the text set by javascript,
+not the text selected by the user. However, I think that this patch is still
+enough to fill the glaring hole opened by `selectAllChildren()`.
 
 ### About the example and bracketed-paste
 
