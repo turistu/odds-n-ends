@@ -103,11 +103,17 @@ The bracketed paste feature of bash/readline and zsh means that you
 cannot just append a CR or LF to the payload and be done, it's the
 user who has to press ENTER for it to run.
 
-However, workarounds exist.  For instance, some terminals like mlterm
-don't filter out the pasted data, and you can terminate the pasting
-mode early on by inserting a `\e[201~` in the payload.
+However, workarounds exist. As [noticed by David Leadbeater][ctrl-c], in the
+default configurations of some terminals like xterm, just inserting a `^C`
+in the payload is enough to bypass the bracketed-paste mode of shells like
+bash, zsh or fish:
 
-For bash, you can take advantage of some quirks in the readline library
+        writeXPrimary('\u0003;touch ~/LOL-' + Date.now() / 1000 +'\r')
+
+Other terminals like mlterm don't filter out the pasted data at all, and you
+can terminate the pasting mode early on with a `\e[201~` escape.
+
+For bash, you can take also advantage of some quirks in the readline library
 to turn off the highlighting and make the payload invisible to the user.
 E.g. ([live example here][bash-pastejack]):
 
@@ -122,6 +128,7 @@ had written something to the terminal:
 	user@host:~$	<-- paste here
 	#   <-- cursor here, most users will just hit Enter to get a new prompt
 
+[ctrl-c]: https://www.openwall.com/lists/oss-security/2023/10/20/2
 [bash-pastejack]:	https://turistu.github.io/firefox/bash-pastejack.html
 
 Just to be clear, I don't think that either mlterm, bash, nor the shells that
