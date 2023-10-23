@@ -153,3 +153,18 @@ And of course, all this doesn't affect the situation where you're copying
 and pasting in another firefox tab with a different context, origin, etc;
 and all the other situations where you don't appreciate having random
 javascript you don't even know about messing with your copy & paste.
+
+### About the timeout
+
+Repeating the script faster than each half second or couple of seconds
+would be counterproductive, as it would cause the load to increase, the
+carets and screen to flicker and the user to immediately notice that she
+cannot select anything (as most X11 programs --but firefox-- remove the
+text highlighting when they lose the primary selection ownership).
+Yet should the attacker have some special reason to bypass the
+`setInterval()` ~1s or so "throttling" when the tab is in background,
+she can do it with a `data:` iframe that
+[reloads itself via meta-refresh][meta-refresh]. This assumes that the
+victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
+
+[meta-refresh]: iframe-meta-refresh.html
