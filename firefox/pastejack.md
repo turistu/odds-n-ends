@@ -161,6 +161,7 @@ would be counterproductive, as it would cause the load to increase, the
 carets and screen to flicker and the user to immediately notice that she
 cannot select anything (as most X11 programs --but firefox-- remove the
 text highlighting when they lose the primary selection ownership).
+
 Yet should the attacker have some special reason to bypass the
 `setInterval()` ~1s or so "throttling" when the tab is in background,
 she can do it with a `data:` iframe that
