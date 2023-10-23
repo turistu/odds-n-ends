@@ -20,7 +20,7 @@ all its vm space, and finally crash and burn ;-)
 ...
 [unhandlable oom] Failed to mmap, likely no more mappings available /builds/worker/checkouts/gecko/memory/build/mozjemalloc.cpp : 1705[Parent 73963, IPC I/O Parent] WARNING: process 74077 exited on signal 11: file /builds/worker/checkouts/gecko/ipc/chromium/src/base/process_util_posix.cc:265
 ```
-But with the current 118 I was still able to keep it going at 100% CPU for
+But with the current firefox (118) I was still able to keep it going at 100% CPU for
 almost 5 minutes on my machine, much more than expected.
 
 If you want to use a callback in the parent window, `setInterval()`-wise,
