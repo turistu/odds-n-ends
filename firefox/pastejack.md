@@ -168,4 +168,4 @@ she can do it with a `data:` iframe that
 [reloads itself via meta-refresh][meta-refresh]. This assumes that the
 victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
 
-[meta-refresh]: iframe-meta-refresh.html
+[meta-refresh]: iframe-meta-refresh.md
