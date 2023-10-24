@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang=en>
+<title>iframe meta refresh example</title>
+<meta name=viewport content=width=device-width,initial-scale=1>
+<body>
+<iframe style=display:none src='data:text/html,
+	<!doctype html>
+	<meta http-equiv=refresh content=0>
+	<script>parent.postMessage("", "*")</script>
+'></iframe>
+<script>
+let cnt = 0;
+onmessage = e => cnt++;
+
+window.addEventListener('visibilitychange', function(){
+	log_stats();
+	log('> visibility: ' + document.visibilityState);
+	window.scrollTo(0, document.body.scrollHeight);
+})
+setInterval(log_stats, 2000);
+
+let st = Date.now(), ot = st, ocnt = 0;
+function log_stats(){
+	let nt = Date.now(), ds = (nt - ot) / 1000, dn = cnt - ocnt;
+	ot = nt;
+	ocnt = cnt;
+	if(ds) log((dn / ds).toFixed(3) + ' Hz')
+}
+function log(l){
+	let b = document.body;
+	if(b.childElementCount > 1000) b.firstElementChild.remove();
+	let p = document.createElement('p'); p.textContent = l;
+	b.appendChild(p);
+}
+</script>

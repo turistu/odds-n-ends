@@ -1,0 +1,13 @@
+name: push html files to turistu.github.io
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  push-html:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: turistu/odds-n-ends/push-html@main
+        with:
+          token: ${{secrets.IO}}
+          src: firefox/*.html
