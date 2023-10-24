@@ -25,7 +25,7 @@ runs:
         set -xe
         user=${{github.repository_owner}}
         email=$(git log -n1 --author="$user" --format=format:%ae)
-        git config user.name "$user[sync]"
+        git config user.name "$user[push-html]"
         git config user.email "${email:-actions@github.com}"
         rsync -avR ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
         cd ${{inputs.repo}}
