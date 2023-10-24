@@ -16,6 +16,8 @@ onmessage = function(){
 ```
 [Live example with some crude stats](https://turistu.github.io/firefox/meta-refresh.html)
 
+According to my testing, this works in both chromium- and gecko-based browsers.
+
 In firefox, you can prevent this from being inflicted upon you by setting
 `accessibility.blockautorefresh` to `true` in `about:config` (but that will
 unfortunately break a lot of stupid sites).
