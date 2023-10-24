@@ -12,6 +12,7 @@ itself via meta-refresh with a zero value:
 onmessage = function(){
 	// your code here
 }
+</script>
 ```
 [Live example with some crude stats](https://turistu.github.io/firefox/meta-refresh.html)
 
