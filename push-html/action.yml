@@ -25,13 +25,11 @@ runs:
         set -xe
         user=${{github.repository_owner}}
         email=$(git log -n1 --author="$user" --format=format:%ae)
-        git config user.name "$user[push-html]"
-        git config user.email "${email:-actions@github.com}"
         rsync -avR ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
         cd ${{inputs.repo}}
+        git config user.name "$user[push-html]"
+        git config user.email "${email:-actions@github.com}"
         git add ${{inputs.dst}}
-        git diff --cached --quiet ||
-                git -c user.name="$user" -c user.email="$email" commit \
-                        -m 'updating ${{inputs.src}}'
+        git diff --cached --quiet || git commit -m 'updating ${{inputs.src}}'
         git push
 
