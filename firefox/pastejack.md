@@ -87,15 +87,17 @@ diff -r 9b362770f30b layout/generic/nsFrameSelection.cpp
  #ifdef DEBUG_CLIPBOARD
      fprintf(stderr, "CLIPBOARD: no selection/collapsed selection\n");
 ```
+[nsFrameSelection.cpp:AutoCopyListener::OnSelectionChange()](https://github.com/mozilla/gecko-dev/blob/aa189da432fac500242d9374f044947357f7144e/layout/generic/nsFrameSelection.cpp#L3326)
 
 The idea of this patch was to *always* prevent javascript from indirectly
-messing with the primary selection via the Selection API. However, this patch
-does not live up to that promise, because `JS_REASON` is not reliable; if
+messing with the primary selection via the Selection API. However, it does
+not live up to that promise, because the `JS_REASON` flag is not reliable; if
 javascript calls some function like `addRange()` or `selectAllChildren()`
 while the user has started dragging but hasn't released the mouse button yet,
 that code will be called *without* that flag but with the text set by javascript,
-not the text selected by the user. However, I think that this patch is still
-enough to fill the glaring hole opened by `selectAllChildren()`.
+not the text selected by the user. However, this is still enough to prevent
+javascript from setting the selection while the user is not interacting with
+the page.
 
 ### About the example and bracketed-paste
 
