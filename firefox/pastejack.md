@@ -183,7 +183,7 @@ victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
 
 Even if the Selection API functions were fixed to only set the primary
 selection when called from a secure context and as a result of user action
-(as they currently do in chromium-based browsers), the fact that they do
+(as I think they currently do in chromium-based browsers), the fact that they do
 it as a hidden side-effect means that they're still quite broken because
 - they end up changing the primary selection [when not intended either by the author
 or the user][quote-reply],
