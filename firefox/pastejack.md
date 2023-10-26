@@ -195,8 +195,8 @@ My proposal is to completely remove any changing of primary selection as
 a side-effect of using the javascript Selection API (i.e. do a more robust
 patch than the one above), and then add an option to the
 [Clipboard API][clipboard-api] functions to use the primary instead of
-the secondary selection, subject to the same restrictions which currently
-apply when using the clipboard selection. Example usage:
+the clipboard selection, subject to the same restrictions which currently
+apply (secure context and user activation). Example usage:
 ```
 navigator.clipboard.writeText(text, {useX11Primary: true})
 ```
