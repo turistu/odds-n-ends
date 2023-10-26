@@ -97,7 +97,12 @@ while the user has started dragging but hasn't released the mouse button yet,
 that code will be called *without* that flag but with the text set by javascript,
 not the text selected by the user. However, this is still enough to prevent
 javascript from setting the selection while the user is not interacting with
-the page.
+the page at all.
+
+**Update:** a virtually identical [patch] was added to mozilla-central on Oct 26 2023,
+but (of course) without referencing the issue mentioned in the paragraph above.
+
+[patch]: https://hg.mozilla.org/mozilla-central/rev/88e0043c5aa4234dada941ac2fd0ded875210508
 
 ### About the example and bracketed-paste
 
