@@ -66,9 +66,11 @@ like `addRange()`, e.g.:
 [Complete extension on addons.mozilla.org][amo-xpi]. If you're running firefox-esr, the developer
 edition or nightly, you can just set `xpinstall.signatures.required` to `true` in
 `about:config`, get the xpi from [here][xpi] and install it with `firefox no-sel.xpi`.
+Notice that blocking `selectAllChildren()` may break some sites, example [here][quote-reply].
 
 [xpi]: no-sel.xpi
 [amo-xpi]: https://addons.mozilla.org/en-US/firefox/addon/disable-the-selection-api/
+[quote-reply]: https://github.com/turistu/odds-n-ends/issues/2
 
 ### Firefox Patch
 ```
@@ -176,3 +178,31 @@ she can do it with a `data:` iframe that
 victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
 
 [meta-refresh]: iframe-meta-refresh.md
+
+### A more general problem and solution
+
+Even if the Selection API functions were fixed to only set the primary
+selection when called from a secure context and as a result of user action
+(as they currently do in chromium-based browsers), the fact that they do
+it as a hidden side-effect means that they're still quite broken because
+- they end up changing the primary selection [when not intended either by the author
+or the user][quote-reply],
+- they cannot be reliably used by legitimate scripts, because
+they don't give any indication on whether setting the primary selection
+had succeeded or not.
+
+My proposal is to completely remove any changing of primary selection as
+a side-effect of using the javascript Selection API (i.e. do a more robust
+patch than the one above), and then add an option to the
+[Clipboard API][clipboard-api] functions to use the primary instead of
+the secondary selection. Example usage:
+```
+navigator.clipboard.writeText(text, {useX11Primary: true})
+```
+Such a thing is quite easy to implement, and will be beneficial to both
+authors (who could make online editors and similar scripts actually usable
+on X11, which is rarely if ever the case now) and to end users who could
+easily block it from an addon's content script or from the site's
+permissions without breaking other functionality.
+
+[clipboard-api]: https://w3c.github.io/clipboard-apis/#clipboard-interface
