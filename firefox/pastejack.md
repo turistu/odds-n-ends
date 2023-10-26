@@ -195,13 +195,14 @@ My proposal is to completely remove any changing of primary selection as
 a side-effect of using the javascript Selection API (i.e. do a more robust
 patch than the one above), and then add an option to the
 [Clipboard API][clipboard-api] functions to use the primary instead of
-the secondary selection. Example usage:
+the secondary selection, subject to the same restrictions which currently
+apply when using the clipboard selection. Example usage:
 ```
 navigator.clipboard.writeText(text, {useX11Primary: true})
 ```
-Such a thing is quite easy to implement, and will be beneficial to both
+Such a thing is trivial to implement, and will be beneficial to both
 authors (who could make online editors and similar scripts actually usable
-on X11, which is rarely if ever the case now) and to end users who could
+on X11, which is rarely --if ever-- the case now) and to end users who could
 easily block it from an addon's content script or from the site's
 permissions without breaking other functionality.
 
