@@ -102,7 +102,7 @@ javascript from setting the selection while the user is not interacting with
 the page at all.
 
 **Update:** a virtually identical [patch] was added to mozilla-central on Oct 26 2023,
-but (of course) without referencing the issue mentioned in the paragraph above.
+but without referencing or addressing the issue mentioned in the paragraph above.
 
 [patch]: https://hg.mozilla.org/mozilla-central/rev/88e0043c5aa4234dada941ac2fd0ded875210508
 
@@ -183,8 +183,8 @@ victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
 
 Even if the Selection API functions were fixed to only set the primary
 selection when called from a secure context and as a result of user action,
-the fact that they do it as a hidden side-effect means that they would still be quite
-broken because:
+the fact that they do it as a hidden side-effect means that they would still
+be quite broken because:
 - they end up changing the primary selection [when not intended either by
 the author or the user][quote-reply],
 - they cannot be reliably used by legitimate scripts, because
@@ -210,5 +210,5 @@ permissions without breaking other functionality.
 
 
 
-[^xterm]: the defaults were changed (after this write-up was published) in
+[^xterm]: the defaults were changed (since this write-up was published) in
 [xterm-388](https://invisible-island.net/xterm/xterm.log.html#xterm_388).
