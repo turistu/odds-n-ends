@@ -109,11 +109,11 @@ but (of course) without referencing the issue mentioned in the paragraph above.
 ### About the example and bracketed-paste
 
 The bracketed paste feature of bash/readline and zsh means that you
-cannot just append a CR or LF to the payload and be done, it's the
+cannot just append a `\r` or `\n` to the payload and be done, it's the
 user who has to press ENTER for it to run.
 
 However, workarounds exist. As [noticed by David Leadbeater][ctrl-c], in the
-default configurations of some terminals like xterm, just inserting a `^C`
+default configurations of some terminals like xterm[^xterm], just inserting a `^C`
 in the payload is enough to bypass the bracketed-paste mode of shells like
 bash, zsh or fish:
 
@@ -172,7 +172,7 @@ cannot select anything (as most X11 programs --but firefox-- remove the
 text highlighting when they lose the primary selection ownership).
 
 Yet should the attacker have some special reason to bypass the
-`setInterval()` ~1s or so "throttling" when the tab is in background,
+`setInterval()` ~1 second or so "throttling" when the tab is in background,
 she can do it with a `data:` iframe that
 [reloads itself via meta-refresh][meta-refresh]. This assumes that the
 victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
@@ -182,14 +182,14 @@ victim hasn't turned `accessibility.blockautorefresh` on in `about:config`.
 ### A more general problem and solution
 
 Even if the Selection API functions were fixed to only set the primary
-selection when called from a secure context and as a result of user action
-(as I think they currently do in chromium-based browsers), the fact that they do
-it as a hidden side-effect means that they're still quite broken because
-- they end up changing the primary selection [when not intended either by the author
-or the user][quote-reply],
+selection when called from a secure context and as a result of user action,
+the fact that they do it as a hidden side-effect means that they would still be quite
+broken because:
+- they end up changing the primary selection [when not intended either by
+the author or the user][quote-reply],
 - they cannot be reliably used by legitimate scripts, because
 they don't give any indication on whether setting the primary selection
-had succeeded or not.
+has succeeded or not.
 
 My proposal is to completely remove any changing of primary selection as
 a side-effect of using the javascript Selection API (i.e. do a more robust
@@ -207,3 +207,8 @@ easily block it from an addon's content script or from the site's
 permissions without breaking other functionality.
 
 [clipboard-api]: https://w3c.github.io/clipboard-apis/#clipboard-interface
+
+
+
+[^xterm]: the defaults were changed (after this write-up was published) in
+[xterm-388](https://invisible-island.net/xterm/xterm.log.html#xterm_388).
