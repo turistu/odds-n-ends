@@ -1,8 +1,9 @@
 name: push-html
-description: push html file to USER.github.io
+description: push html file(s) to USER.github.io
 inputs:
   src:
     required: true
+    description: foo/./bar/baz.html rsync syntax is supported 
   token:
     required: true
   user:
@@ -25,7 +26,7 @@ runs:
         set -xe
         user=${{github.repository_owner}}
         email=$(git log -n1 --author="$user" --format=format:%ae)
-        rsync -avR ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
+        rsync -avR --mkpath ${{inputs.src}} ${{inputs.repo}}/${{inputs.dst}}
         cd ${{inputs.repo}}
         git config user.name "$user[push-html]"
         git config user.email "${email:-actions@github.com}"
