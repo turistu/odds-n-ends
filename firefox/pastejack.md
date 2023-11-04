@@ -123,7 +123,7 @@ Other terminals like mlterm don't filter out the pasted data at all, and you
 can terminate the pasting mode early on with a `\e[201~` escape.
 
 For bash, you can take also advantage of some quirks in the readline library
-to turn off the highlighting and make the payload invisible to the user.
+to turn off the highlighting and make the payload invisible to the user [^bash].
 E.g. ([live example here][bash-pastejack]):
 
 	let payload = 'touch ~/LOL-' + Date.now() / 1000;
@@ -138,7 +138,14 @@ had written something to the terminal:
 	#   <-- cursor here, most users will just hit Enter to get a new prompt
 
 [ctrl-c]: https://www.openwall.com/lists/oss-security/2023/10/20/2
+
 [bash-pastejack]:	https://turistu.github.io/firefox/bash-pastejack.html
+
+[^bash]: this issue was fixed in the devel branch of bash by commit [ad39c5];
+the code is still marked [experimental][display.c] and not yet included in any release, though.
+
+[ad39c5]: https://git.savannah.gnu.org/cgit/bash.git/commit/?h=devel&id=ad39c5
+[display.c]: https://git.savannah.gnu.org/cgit/bash.git/tree/lib/readline/display.c?h=devel&id=fe24a6a55e8850298b496c5b9d82f1866eba190e#n1315
 
 Just to be clear, I don't think that either mlterm, bash, nor the shells that
 don't do have that bracketed-paste feature are at fault here in any way
