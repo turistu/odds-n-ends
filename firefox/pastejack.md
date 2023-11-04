@@ -102,7 +102,8 @@ javascript from setting the selection while the user is not interacting with
 the page at all.
 
 **Update:** a virtually identical [patch] was added to mozilla-central on Oct 26 2023,
-but without referencing or addressing the issue mentioned in the paragraph above.
+but without referencing or addressing the issue mentioned in the paragraph above. The
+patch has made its way since then into the 120.0b5 developer/beta version of firefox.
 
 [patch]: https://hg.mozilla.org/mozilla-central/rev/88e0043c5aa4234dada941ac2fd0ded875210508
 
@@ -214,8 +215,6 @@ easily block it from an addon's content script or from the site's
 permissions without breaking other functionality.
 
 [clipboard-api]: https://w3c.github.io/clipboard-apis/#clipboard-interface
-
-
 
 [^xterm]: the defaults were changed (since this write-up was published) in
 [xterm-388](https://invisible-island.net/xterm/xterm.log.html#xterm_388).
