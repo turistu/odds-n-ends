@@ -103,7 +103,7 @@ the page at all.
 
 **Update:** a virtually identical [patch] was added to mozilla-central on Oct 26 2023,
 but without referencing or addressing the issue mentioned in the paragraph above. The
-patch has made its way since then into the 120.0b5 developer/beta version of firefox.
+patch has made its way since then into the firefox-120.0b5 developer/beta version.
 
 [patch]: https://hg.mozilla.org/mozilla-central/rev/88e0043c5aa4234dada941ac2fd0ded875210508
 
