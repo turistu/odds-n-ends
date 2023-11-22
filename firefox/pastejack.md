@@ -8,7 +8,10 @@ inside such a window, an error page, a sandboxed iframe, a page that has
 reloaded itself via `meta http-equiv=refresh`, etc.
 
 This applies to all the versions of mozilla/firefox and their derivatives
-(seamonkey, etc) that I was able to test, including the latest nightly.
+(seamonkey, etc) that I was able to test, including the latest nightly [^fixed].
+
+[^fixed]: the bug has since been fixed in firefox-120.0 and firefox-115.5esr,
+see [CVE-2023-6208](https://www.mozilla.org/en-US/security/advisories/mfsa2023-49/#CVE-2023-6208).
 
 ### Example
 
@@ -89,7 +92,7 @@ diff -r 9b362770f30b layout/generic/nsFrameSelection.cpp
  #ifdef DEBUG_CLIPBOARD
      fprintf(stderr, "CLIPBOARD: no selection/collapsed selection\n");
 ```
-[nsFrameSelection.cpp:AutoCopyListener::OnSelectionChange()](https://github.com/mozilla/gecko-dev/blob/aa189da432fac500242d9374f044947357f7144e/layout/generic/nsFrameSelection.cpp#L3326)
+<sub>[nsFrameSelection.cpp:AutoCopyListener::OnSelectionChange()](https://github.com/mozilla/gecko-dev/blob/aa189da432fac500242d9374f044947357f7144e/layout/generic/nsFrameSelection.cpp#L3326)</sub>
 
 The idea of this patch was to *always* prevent javascript from indirectly
 messing with the primary selection via the Selection API. However, it does
@@ -164,12 +167,10 @@ turned out to be utterly false; it's just some quirk, bug or "feature"
 specific to either firefox itself or GTK.
 
 But I think that's still bad enough, even if the page should take care to
-only set the selection when the main window has gained focus.
+only set the selection when the main window has the keyboard focus.
 
 And of course, all this doesn't affect the situation where you're copying
-and pasting in another firefox tab with a different context, origin, etc;
-and all the other situations where you don't appreciate having random
-javascript you don't even know about messing with your copy & paste.
+and pasting in another firefox tab with a different context, origin, etc.
 
 ### About the timeout
 
