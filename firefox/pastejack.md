@@ -8,9 +8,9 @@ inside such a window, an error page, a sandboxed iframe, a page that has
 reloaded itself via `meta http-equiv=refresh`, etc.
 
 This applies to all the versions of mozilla/firefox and their derivatives
-(seamonkey, etc) that I was able to test, including the latest nightly [^fixed].
+(seamonkey, etc) that I was able to test, including the latest nightly [^cve].
 
-[^fixed]: the bug has since been fixed in firefox-120.0 and firefox-115.5esr,
+[^cve]: the bug has since been fixed in firefox-120.0 and firefox-115.5esr,
 see [CVE-2023-6208](https://www.mozilla.org/en-US/security/advisories/mfsa2023-49/#CVE-2023-6208).
 
 ### Example
