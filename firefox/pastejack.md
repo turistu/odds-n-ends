@@ -3,6 +3,8 @@ This bug was present since at least firefox-17.0 (2012) and has been (mostly) fi
 see [CVE-2023-6208](https://www.mozilla.org/en-US/security/advisories/mfsa2023-49/#CVE-2023-6208).<br>
 Other gecko-based browsers (e.g. seamonkey-2.53.19 as of 2024-10-14) may still be vulnerable.
 
+---
+
 In firefox running on X11, any script from any page can freely write to the
 primary selection, and that can be easily exploited to run arbitrary code
 on the user's machine.
