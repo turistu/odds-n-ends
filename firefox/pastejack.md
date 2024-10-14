@@ -1,3 +1,8 @@
+**Note:**
+This bug was present since at least firefox-17.0 (2012) and has been (mostly) fixed since firefox-120.0 and firefox-115.5esr,
+see [CVE-2023-6208](https://www.mozilla.org/en-US/security/advisories/mfsa2023-49/#CVE-2023-6208).<br>
+Other gecko-based browsers (e.g. seamonkey-2.53.19 as of 2024-10-14) may still be vulnerable.
+
 In firefox running on X11, any script from any page can freely write to the
 primary selection, and that can be easily exploited to run arbitrary code
 on the user's machine.
@@ -8,11 +13,8 @@ inside such a window, an error page, a sandboxed iframe, a page that has
 reloaded itself via `meta http-equiv=refresh`, etc.
 
 This applies to all the versions of mozilla/firefox and their derivatives
-(seamonkey, etc) that I was able to test, including the latest nightly [^cve].
+(seamonkey, etc) that I was able to test, including the latest nightly.
 
-[^cve]: the bug was present since at least firefox-17.0 (2012) and has since been fixed in firefox-120.0 and firefox-115.5esr,
-see [CVE-2023-6208](https://www.mozilla.org/en-US/security/advisories/mfsa2023-49/#CVE-2023-6208).<br>
-Some other gecko-based browsers (e.g. seamonkey-2.53.18) were still vulnerable as of 2023-12-19.
 
 ### Example
 
