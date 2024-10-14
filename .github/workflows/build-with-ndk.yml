@@ -31,7 +31,7 @@ jobs:
         arch: [aarch64, x86_64, armv7a, i686]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{inputs.ref}}
       - name: Make directories and reconfigure the sources
@@ -46,7 +46,7 @@ jobs:
 
       - name: Save output
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{inputs.name}}-android-${{matrix.arch}}${{steps.build.conclusion == 'failure' && '-FAILED' || ''}}
           path: ${{env.OUT}}
