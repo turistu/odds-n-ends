@@ -26,5 +26,5 @@ jobs:
           git config user.email "${email:-actions@github.com}"
           git remote add upstream ${{inputs.upstream}}
           git fetch upstream
-          git merge upstream/master
+          git merge upstream/master -s ort -s ours
           git push
