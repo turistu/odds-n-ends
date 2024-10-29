@@ -26,4 +26,4 @@ jobs:
           git remote add upstream ${{inputs.upstream}}
           git fetch upstream
           git ${{inputs.op}} upstream/master
-          git push {{$inputs.op == 'rebase' && '-f' || ''}}
+          git push ${{inputs.op == 'rebase' && '-f' || ''}}
