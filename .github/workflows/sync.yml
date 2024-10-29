@@ -2,10 +2,9 @@ name: Sync with upstream
 on:
   workflow_call:
     inputs:
-      branch:
-        type: string
-      upstream:
-        type: string
+      branch: { type: string }
+      upstream: { type: string }
+      op: { type: string, default: merge }
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -26,5 +25,5 @@ jobs:
           git config user.email "${email:-actions@github.com}"
           git remote add upstream ${{inputs.upstream}}
           git fetch upstream
-          git rebase upstream/master
-          git push
+          git ${{inputs.op}} upstream/master
+          git push {{$inputs.op == 'rebase' && '-f' || ''}}
