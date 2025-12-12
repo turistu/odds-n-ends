@@ -1,0 +1,19 @@
+name: compile and run test programs
+on:
+  push:
+    paths:
+      - unix-creds/xuid.c
+jobs:
+  compile-and-run:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-22.04, macos-26, macos-latest, macos-14]
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: ${{matrix.os}}
+        run: |
+          cc -Wall unix-creds/xuid.c -o xuid
+          sudo ./xuid
