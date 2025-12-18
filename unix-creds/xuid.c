@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
 
 /* no getresuid, use sysctl(2) */
 #if __APPLE__ || __NetBSD__
@@ -104,7 +105,17 @@ void show_creds(void){
 }
 #endif
 
-/**********************************************/
+#if USE_SETRESUID
+int setxuid(uid_t uid, uid_t suid){
+        return setresuid(uid, uid, suid);
+}
+int setxgid(gid_t gid, gid_t sgid){
+        return setresgid(gid, gid, sgid);
+}
+int drop_saved_uid(){
+        return setresuid(-1, -1, geteuid());
+}
+#else
 int setxuid(uid_t uid, uid_t svuid){
 	if(setreuid(uid, svuid)) return -1;
 	return seteuid(uid);
@@ -113,13 +124,12 @@ int setxgid(gid_t gid, gid_t sgid){
 	if(setregid(gid, sgid)) return -1;
 	return setegid(gid);
 }
-int drop_saved_uid(uid_t svuid){
+int drop_saved_uid(){
 	uid_t euid = geteuid();
-	if(setreuid(euid, svuid)) return -1;
 	if(setreuid(euid, euid)) return -1;
 	return setuid(euid);
 }
-/**********************************************/
+#endif
 
 long getnum(const char *s){
 	char *e; long l;
@@ -129,10 +139,15 @@ long getnum(const char *s){
 	return l;
 }
 
+void sigh(int s){}
 int main(int ac, char **av){
 	uid_t uid, svuid;
+	int do_pause = 0;
 
 	show_creds();
+	if(ac > 1 && av[1][0] == '-'){
+		ac--; av++; do_pause = 1;
+	}
 	uid = ac > 1 ? getnum(av[1]) : 77;
 	svuid = ac > 2 ? getnum(av[2]) : geteuid();
 
@@ -152,8 +167,13 @@ int main(int ac, char **av){
 	show_creds();
 
 	/* drop the saved-set-user-id */
-	drop_saved_uid(svuid);
+	drop_saved_uid();
 	show_creds();
+
+	if(do_pause){
+		signal(SIGINT, sigh);
+		pause();
+	}
 
 	/* check if it's really dropped */
 	if(setreuid(svuid, uid) == 0)

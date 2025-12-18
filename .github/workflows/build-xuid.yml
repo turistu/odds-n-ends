@@ -17,3 +17,15 @@ jobs:
         run: |
           cc -Wall unix-creds/xuid.c -o xuid
           sudo ./xuid
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+        uses: vmactions/solaris-vm@v1
+        with:
+          run: |
+            sudo pkg install developer/gcc
+            cc unix-creds/xuid.c -o xuid
+            sudo ./xuid
+        uses: vmactions/netbsd-vm@v1
+        with:
+          run: |
+            cc unix-creds/xuid.c -o xuid
+            sudo ./xuid
