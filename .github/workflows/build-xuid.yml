@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - unix-creds/xuid.c
+  workflow_dispatch:
 jobs:
   compile-and-run:
     strategy:
@@ -17,13 +18,16 @@ jobs:
         run: |
           cc -Wall unix-creds/xuid.c -o xuid
           sudo ./xuid
+      - name: solaris
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: vmactions/solaris-vm@v1
         with:
           run: |
             sudo pkg install developer/gcc
-            cc unix-creds/xuid.c -o xuid
+            gcc unix-creds/xuid.c -o xuid
             sudo ./xuid
+      - name: netbsd
+        if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: vmactions/netbsd-vm@v1
         with:
           run: |

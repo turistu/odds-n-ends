@@ -1,6 +1,8 @@
 name: push html files to turistu.github.io
 on:
   push:
+    paths:
+      - '**.html'
   workflow_dispatch:
 jobs:
   push-html:
