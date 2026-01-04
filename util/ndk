@@ -1,0 +1,80 @@
+#! /bin/sh
+unset IFS
+api=21
+arch=armv7a
+ndk=${ANDROID_NDK:-r*}
+src=${SRC:-$(pwd)}
+op=
+set -e
+
+die(){ echo >&2 "$@"; exit 1; }
+while :; do
+	case $1 in
+	build|make|cc) op=$1; shift; break;;
+	aarch64|armv7a|i686|x86_64) arch=$1;;
+	[1-9][0-9]|[1-9])	api=$1;;
+	r[1-9]*|*-ndk-*|*/ndk/*)	ndk=$1;;
+	*=*)	eval "$1";;
+	''|--?*) break;;
+	--)	shift; break;;
+	*)	die "unknown argument '$1'";;
+	esac
+	shift
+done
+
+eabi=
+garch=$arch
+sarch=$arch
+case $arch in
+armv7a) garch=arm; sarch=arm; eabi=eabi;;
+i686)	sarch=x86;;
+esac
+last(){ printf '%s\n' $@ | sort -V | tail -n1; }
+
+case $ndk in
+/*)	;;
+r*)	ndk=$KDIR/v/android-ndk-$ndk ;;
+esac
+
+clang=$ndk/toolchains/llvm/prebuilt/linux-*/bin/$arch-linux-android$eabi$api-clang
+gcc=$ndk/toolchains/*/prebuilt/linux-*/bin/$garch-linux-android$eabi-gcc
+sysroot=$ndk/platforms/android-$api/arch-$sarch
+
+cc=$(last $clang)
+if "$cc" -v 2>/dev/null; then
+	strip=${cc%/*}/llvm-strip
+	ar=${cc%/*}/llvm-ar
+else
+	d=$(last $sysroot)
+	cc=$(last $gcc)
+	test -d "$d" && "$cc" -v 2>/dev/null ||
+		die "api=$api arch=$arch not found inside $ndk"
+	strip=${cc%-gcc}-strip
+	ar=${cc%-gcc}-ar
+	cflags=--sysroot=$d
+fi
+"$strip" --version >/dev/null
+out=${OUT:-B-android-$api-$arch}
+
+case $op in
+cc)
+	"$cc" $cflags "$@"
+	;;
+make)
+	make "AR=$ar" "CC=$cc" "STRIP=$strip" "CROSS_COMPILE=${cc%-*}" \
+		"CONFIG_EXTRA_CFLAGS=$cflags" "$@"
+	;;
+build)
+	mkdir -p "$out"
+	cd "$out"
+	CC="$cc $cflags" STRIP="$strip" AR="$ar" \
+		"$src/configure" --host="$arch-linux-android$api" "$@"
+	make -j32
+	make strip
+	;;
+'')
+	echo "out=$out"
+	echo "CC=$CC"
+	echo "STRIP=$STRIP"
+	;;
+esac

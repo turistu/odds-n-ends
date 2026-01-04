@@ -1,0 +1,13 @@
+name: util
+description: reusable scripts / programs
+inputs:
+  cmd:
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: ${{inputs.cmd}}
+      shell: bash
+      run: |
+        PATH=${{github.action_path}}:$PATH
+        ${{inputs.cmd}}
