@@ -4,18 +4,15 @@ on:
     inputs:
       build:
         type: string
-        required: true
+        default: ndk build
       reconf:
         type: string
-        required: false
         default: echo nothing to do
       dir:
         type: string
-        required: false
         default: BUILD
       name:
         type: string
-        required: false
         default: ${{github.event.repository.name}}
       ref:
         type: string
@@ -42,7 +39,9 @@ jobs:
 
       - name: Build with the NDK
         id: build
-        run: ${{inputs.build}} ${{matrix.arch}} "$ANDROID_NDK"
+        uses: turistu/odds-n-ends/util@main
+        with:
+          cmd: ${{inputs.build}}
 
       - name: Save output
         if: success() || failure()

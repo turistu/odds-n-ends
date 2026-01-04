@@ -10,11 +10,12 @@ set -e
 die(){ echo >&2 "$@"; exit 1; }
 while :; do
 	case $1 in
-	build|make|cc) op=$1; shift; break;;
+	build) op=$1;;
 	aarch64|armv7a|i686|x86_64) arch=$1;;
 	[1-9][0-9]|[1-9])	api=$1;;
 	r[1-9]*|*-ndk-*|*/ndk/*)	ndk=$1;;
 	*=*)	eval "$1";;
+	cc|make) op=$1; shift; break;;
 	''|--?*) break;;
 	--)	shift; break;;
 	*)	die "unknown argument '$1'";;
