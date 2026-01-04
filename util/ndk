@@ -70,7 +70,7 @@ build)
 	CC="$cc $cflags" STRIP="$strip" AR="$ar" \
 		"$src/configure" --host="$arch-linux-android$api" "$@"
 	make -j32
-	make strip
+	make strip || :
 	;;
 '')
 	echo "out=$out"
