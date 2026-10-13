@@ -46,7 +46,7 @@ syswrite $sock, pack_dbus(q{
 });
 
 package packer {
-	sub TIEHASH { my $p = shift; bless {'', \$_[0]}, $p }
+	sub TIEHASH { bless {'', \$_[1]}, $_[0] }
 	sub FETCH { $_[0]{$_[1]}{v} }
 	sub STORE {
 		my $v = $_[0]{$_[1]}{v} = $_[2]; my $h = $_[0]{$_[1]};
