@@ -1,6 +1,6 @@
 CFLAGS = -O2 -Wall -std=c89 -pedantic
 
-PROGS = xuid utmpx
+PROGS = xuid
 
 all:	$(PROGS)
 xuid:	xuid.o show_creds.o
